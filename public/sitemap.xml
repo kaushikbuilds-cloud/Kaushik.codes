@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Kaushik Codes sitemap.
+  The homepage is listed statically here. Individual /links/:slug pages are
+  discovered by crawlers via links on the homepage. To generate a full
+  per-post sitemap at build time, see `scripts/generate-sitemap.mjs`.
+-->
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url>
+    <loc>https://kaushik.codes/</loc>
+    <changefreq>daily</changefreq>
+    <priority>1.0</priority>
+  </url>
+</urlset>
