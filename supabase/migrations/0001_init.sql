@@ -12,26 +12,6 @@
 create extension if not exists "pgcrypto";     -- gen_random_uuid()
 
 -- ============================================================================
--- Helper: is_admin()
--- Returns true when the current authenticated user has an admin profile.
--- Admin accounts are created manually (a row in `profiles` with role='admin').
--- ============================================================================
-create or replace function public.is_admin()
-returns boolean
-language sql
-stable
-security definer
-set search_path = public
-as $$
-  select exists (
-    select 1
-    from public.profiles p
-    where p.id = auth.uid()
-      and p.role = 'admin'
-  );
-$$;
-
--- ============================================================================
 -- Helper: set_updated_at() trigger function
 -- ============================================================================
 create or replace function public.set_updated_at()
@@ -217,6 +197,28 @@ create trigger site_settings_set_updated_at
 insert into public.site_settings (singleton)
 values (true)
 on conflict (singleton) do nothing;
+
+-- ============================================================================
+-- Helper: is_admin()
+-- Returns true when the current authenticated user has an admin profile.
+-- Admin accounts are created manually (a row in `profiles` with role='admin').
+-- Defined here, after `profiles` exists, because SQL-language functions are
+-- validated against real objects at CREATE time (unlike plpgsql).
+-- ============================================================================
+create or replace function public.is_admin()
+returns boolean
+language sql
+stable
+security definer
+set search_path = public
+as $$
+  select exists (
+    select 1
+    from public.profiles p
+    where p.id = auth.uid()
+      and p.role = 'admin'
+  );
+$$;
 
 -- ============================================================================
 -- ROW LEVEL SECURITY
