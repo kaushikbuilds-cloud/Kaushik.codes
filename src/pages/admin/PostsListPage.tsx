@@ -16,6 +16,7 @@ import { EmptyState } from '@/components/ui/EmptyState';
 import { Skeleton } from '@/components/ui/Skeleton';
 import { useToast } from '@/contexts/ToastContext';
 import { formatDate } from '@/utils/date';
+import { getErrorMessage } from '@/utils/error';
 import { useSeo } from '@/hooks/useSeo';
 import { cn } from '@/utils/cn';
 import type { PostListItem, PostStatus } from '@/types/database';
@@ -50,7 +51,7 @@ export function PostsListPage() {
       toast('Post deleted', 'info');
       setToDelete(null);
     } catch (err) {
-      toast(err instanceof Error ? err.message : 'Delete failed', 'error');
+      toast(getErrorMessage(err, 'Delete failed'), 'error');
     }
   };
 
@@ -60,7 +61,7 @@ export function PostsListPage() {
       await setStatus.mutateAsync({ id: post.id, status: next });
       toast(next === 'published' ? 'Post published 🚀' : 'Moved to draft', 'info');
     } catch (err) {
-      toast(err instanceof Error ? err.message : 'Update failed', 'error');
+      toast(getErrorMessage(err, 'Update failed'), 'error');
     }
   };
 

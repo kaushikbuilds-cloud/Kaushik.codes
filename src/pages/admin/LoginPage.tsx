@@ -3,6 +3,7 @@ import { Navigate, useLocation, useNavigate } from 'react-router-dom';
 import { Lock, Mail } from 'lucide-react';
 import { useAuth } from '@/contexts/AuthContext';
 import { Spinner } from '@/components/ui/Spinner';
+import { getErrorMessage } from '@/utils/error';
 import { useSeo } from '@/hooks/useSeo';
 
 export function LoginPage() {
@@ -31,9 +32,7 @@ export function LoginPage() {
       await signIn(email.trim(), password);
       navigate(from, { replace: true });
     } catch (err) {
-      setError(
-        err instanceof Error ? err.message : 'Login failed. Check your credentials.',
-      );
+      setError(getErrorMessage(err, 'Login failed. Check your credentials.'));
     } finally {
       setSubmitting(false);
     }

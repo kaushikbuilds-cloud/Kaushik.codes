@@ -2,6 +2,7 @@ import { useRef, useState } from 'react';
 import { ImagePlus, Loader2, X } from 'lucide-react';
 import { uploadImage } from '@/services/storage';
 import { useToast } from '@/contexts/ToastContext';
+import { getErrorMessage } from '@/utils/error';
 import { cn } from '@/utils/cn';
 
 const MAX_BYTES = 5 * 1024 * 1024; // 5 MB
@@ -40,7 +41,7 @@ export function ImageUpload({
       const url = await uploadImage(file, folder);
       onChange(url);
     } catch (err) {
-      toast(err instanceof Error ? err.message : 'Upload failed', 'error');
+      toast(getErrorMessage(err, 'Upload failed'), 'error');
     } finally {
       setUploading(false);
       if (inputRef.current) inputRef.current.value = '';

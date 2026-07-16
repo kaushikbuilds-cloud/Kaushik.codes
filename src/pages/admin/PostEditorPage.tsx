@@ -13,6 +13,7 @@ import { useAdminPost, useCreatePost, useUpdatePost } from '@/features/posts/use
 import { useToast } from '@/contexts/ToastContext';
 import { slugify } from '@/utils/slug';
 import { isValidUrl, normalizeUrl } from '@/utils/url';
+import { getErrorMessage } from '@/utils/error';
 import { useSeo } from '@/hooks/useSeo';
 import type { PostInput } from '@/services/posts';
 import type { PostStatus } from '@/types/database';
@@ -154,7 +155,7 @@ export function PostEditorPage() {
       }
       navigate('/admin/posts');
     } catch (err) {
-      toast(err instanceof Error ? err.message : 'Save failed', 'error');
+      toast(getErrorMessage(err, 'Save failed'), 'error');
     } finally {
       setSaving(null);
     }

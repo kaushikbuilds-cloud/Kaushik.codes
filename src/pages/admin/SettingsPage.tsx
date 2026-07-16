@@ -4,6 +4,7 @@ import { useSettings, useUpdateSettings } from '@/features/settings/useSettings'
 import { Spinner, FullScreenSpinner } from '@/components/ui/Spinner';
 import { useToast } from '@/contexts/ToastContext';
 import { normalizeUrl } from '@/utils/url';
+import { getErrorMessage } from '@/utils/error';
 import { useSeo } from '@/hooks/useSeo';
 import type { SettingsUpdate } from '@/services/settings';
 
@@ -55,7 +56,7 @@ export function SettingsPage() {
       await updateSettings.mutateAsync({ id: settings.id, patch });
       toast('Settings saved ✅', 'success');
     } catch (err) {
-      toast(err instanceof Error ? err.message : 'Save failed', 'error');
+      toast(getErrorMessage(err, 'Save failed'), 'error');
     }
   };
 

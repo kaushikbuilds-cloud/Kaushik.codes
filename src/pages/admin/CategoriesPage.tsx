@@ -14,6 +14,7 @@ import { Spinner } from '@/components/ui/Spinner';
 import { useToast } from '@/contexts/ToastContext';
 import { useSeo } from '@/hooks/useSeo';
 import { cn } from '@/utils/cn';
+import { getErrorMessage } from '@/utils/error';
 import type { Category } from '@/types/database';
 
 interface EditState {
@@ -65,7 +66,7 @@ export function CategoriesPage() {
       }
       setEditing(null);
     } catch (err) {
-      toast(err instanceof Error ? err.message : 'Save failed', 'error');
+      toast(getErrorMessage(err, 'Save failed'), 'error');
     }
   };
 
@@ -85,7 +86,7 @@ export function CategoriesPage() {
       toast('Category deleted', 'info');
       setToDelete(null);
     } catch (err) {
-      toast(err instanceof Error ? err.message : 'Delete failed', 'error');
+      toast(getErrorMessage(err, 'Delete failed'), 'error');
     }
   };
 
